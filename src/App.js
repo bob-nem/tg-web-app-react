@@ -1,19 +1,23 @@
 import { useEffect } from 'react';
 import './App.css';
-
-const tg = window.Telegram.WebApp;
+import {useTelegram} from "./hooks/useTelegram";
+import Header from "./components/header/header";
+import {Route, Routes} from 'react-router-dom';
+import ProductList from './components/productList/productList';
+import Form from "./components/form/form";
 
 function App() {
+  const {onToggleButton, tg} = useTelegram();
   useEffect(()=>{
     tg.ready();
   },[])
-  const onClose = () => {
-    tg.close
-  }
   return (
     <div className="App">
-      I'm ready
-      <button onClick={onClose}>Close</button>
+      <Header />
+      <Routes>
+        <Route index element={<ProductList/>} />
+        <Route path={'/form'} element={<Form/>} />
+      </Routes>
     </div>
   );
 }
